@@ -1,4 +1,4 @@
-[![pipeline status](https://gitlab.com/lux-tech/auth-service/badges/dev/pipeline.svg)](https://gitlab.com/lux-tech/auth-service/commits/dev) 
+[![pipeline status](https://gitlab.com/lux-tech/auth-service/badges/dev/pipeline.svg)](https://gitlab.com/lux-tech/auth-service/commits/dev)
 [![coverage report](https://gitlab.com/lux-tech/auth-service/badges/dev/coverage.svg)](https://gitlab.com/lux-tech/auth-service/commits/dev)
 
 # auth-service
@@ -16,7 +16,7 @@ npm run dev
 npm start
 
 # Run unit tests
-npm test
+npm run test
 
 # Run continuous test mode
 npm run ci
@@ -29,10 +29,10 @@ npm run lint
 
 **Build Docker image**
 ```bash
-$ docker build -t auth-service .
+$ docker build -t base-service .
 ```
 
 **Start container**
 ```bash
-$ docker run -d auth-service
+$ docker run -d base-service
 ```
