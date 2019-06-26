@@ -50,6 +50,7 @@ module.exports = knex => {
         return knex.select(props)
             .from(tableName)
             .where({ email: ctx.email })
+            .whereNull('deleted_at')
             .first()
             .then(user => {
                 if (!user) return Promise.reject(new AuthenticationError('Email or password is invalid!', 401, '', []));
@@ -82,6 +83,7 @@ module.exports = knex => {
         const user = await knex.select(['password'])
             .from(tableName)
             .where({ id })
+            .whereNull('deleted_at')
             .first();
         if (user) {
             const verify = await verifyPassword(password, user.password);
