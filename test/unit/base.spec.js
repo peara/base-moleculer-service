@@ -18,13 +18,11 @@ describe("Test 'auth' service", () => {
         beforeAll(() => truncate());
 
         const validParams = {
-            user: {
                 email: 'valid-test@gmail.com',
                 first_name: 'valid-first-name',
                 last_name: 'valid-last-name',
                 password: 'valid-password',
                 password_confirmation: 'valid-password'
-            }
         };
 
         test('register with empty params', () => {
@@ -52,26 +50,27 @@ describe("Test 'auth' service", () => {
 
         test('cannot register invalid data', () => {
             const invalidParams = {
-                user: {
                     id: '12121212',
                     email: 'valid@gmail',
                     first_name: '',
                     last_name: '',
                     password: '1234',
                     password_confirmation: '1234'
-                }
             };
             return broker.call('base.register', lodash.cloneDeep(invalidParams)).catch(err => {
                 expect(err).toBeInstanceOf(ValidationError);
                 expect(err.data.map(e => [e.field, e.type])).toEqual(
-                    expect.arrayContaining([
-                        ['user', 'objectStrict'],
-                        ['user.first_name', 'stringMin'],
-                        ['user.last_name', 'stringMin'],
-                        ['user.password', 'stringMin'],
-                        ['user.password_confirmation', 'stringMin'],
-                        ['user.email', 'email']
-                    ])
+                    expect.objectContaining({
+                        data:
+                            expect.arrayContaining([
+                            ['user', 'objectStrict'],
+                            ['user.first_name', 'stringMin'],
+                            ['user.last_name', 'stringMin'],
+                            ['user.password', 'stringMin'],
+                            ['user.password_confirmation', 'stringMin'],
+                            ['user.email', 'email']
+                        ])
+                    })
                 );
             });
         });
@@ -111,7 +110,7 @@ describe("Test 'auth' service", () => {
         });
 
         test('cannot register password too short', () => {
-            const invalidParams = lodash.merge({}, validParams, { user: { password: '1234567', password_confirmation: '1234567' } });
+            const invalidParams = lodash.merge({}, validParams, {  password: '1234567', password_confirmation: '1234567' });
             const error = {
                 code: 422,
                 type: 'VALIDATION_ERROR',
@@ -133,7 +132,7 @@ describe("Test 'auth' service", () => {
 
 
         test('cannot register password contains invalid character', () => {
-            const invalidParams = lodash.merge({}, validParams, { user: { password: '1234567ạ', password_confirmation: '1234567ạ' } });
+            const invalidParams = lodash.merge({}, validParams, { password: '1234567ạ', password_confirmation: '1234567ạ' });
             const error = {
                 code: 422,
                 type: 'VALIDATION_ERROR',
@@ -154,7 +153,7 @@ describe("Test 'auth' service", () => {
         });
 
         test('cannot register when password confirmation not match', () => {
-            const invalidParams = lodash.merge({}, validParams, { user: { email: 'test-2@gmail.com', password_confirmation: 'not-match-password' } });
+            const invalidParams = lodash.merge({}, validParams, { email: 'test-2@gmail.com', password_confirmation: 'not-match-password' } );
             const error = {
                 code: 422,
                 type: 'VALIDATION_ERROR',
@@ -170,20 +169,16 @@ describe("Test 'auth' service", () => {
         beforeAll(() => truncate());
 
         const validUserParams = {
-            user: {
                 email: 'valid-test@gmail.com',
                 first_name: 'valid-first-name',
                 last_name: 'valid-last-name',
                 password: 'valid-password',
                 password_confirmation: 'valid-password'
-            }
         };
 
         const validLoginParams = {
-            user: {
                 email: 'valid-test@gmail.com',
                 password: 'valid-password'
-            }
         };
 
         let loginToken;
@@ -192,10 +187,8 @@ describe("Test 'auth' service", () => {
 
         test('cannot login because user not exist', () => {
             const params = {
-                user: {
                     email: 'not-existed@gmail.com',
                     password: 'wrong-password'
-                }
             };
             return expect(broker.call('base.login', params)).rejects.toThrow();
         });
@@ -209,15 +202,17 @@ describe("Test 'auth' service", () => {
 
             expect(res).toEqual(
                 expect.objectContaining({
-                    access_token: expect.any(String),
-                    refresh_token: expect.any(String),
-                    token_type: 'Bearer',
-                    user: expect.objectContaining({
-                        email: 'valid-test@gmail.com',
-                        first_name: 'valid-first-name',
-                        last_name: 'valid-last-name',
-                        id: expect.any(Number)
-                    })
+                    data:{
+                        access_token: expect.any(String),
+                        refresh_token: expect.any(String),
+                        token_type: 'Bearer',
+                        user: expect.objectContaining({
+                            email: 'valid-test@gmail.com',
+                            first_name: 'valid-first-name',
+                            last_name: 'valid-last-name',
+                            id: expect.any(Number)
+                        })
+                    }
                 })
             );
         });
