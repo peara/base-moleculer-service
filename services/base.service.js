@@ -20,7 +20,8 @@ module.exports = {
         entityValidator: {
             password: { type: 'string', min: 6 },
             email: { type: 'email' }
-        }
+        },
+        maxRetryTime: 3
     },
 
     /**
@@ -53,8 +54,7 @@ module.exports = {
                 }
             },
             handler(ctx) {
-                return this.Promise.resolve()
-                    .then(() => User.login(ctx.params.user))
+                return User.login(ctx.params.user)
                     .then(data => {
                         return Promise.all([data, Jwt.create(data)]);
                     })
@@ -84,24 +84,22 @@ module.exports = {
             },
             handler(ctx) {
                 const params = ctx.params.user;
-                return this.Promise.resolve()
-                    .then(() => User.findOne({ email: params.email }))
+                return User.findOne({ email: params.email })
                     .then(user => {
-                        if (user) {
-                            return this.Promise.reject(new ValidationError('user-existed', null, '', []));
-                        }
+                        if (user) throw new ValidationError('user-existed', null, '', []);
 
                         if (params.password !== params.password_confirmation) {
-                            return this.Promise.reject(new ValidationError('password-confirmation-not-match', null, '', []));
+                            throw new ValidationError('password-confirmation-not-match', null, '', []);
                         }
 
                         delete params.password_confirmation;
+                        // Emit an event to all service
+                        this.broker.emit('base.register', { service: 'base', method: 'register', params });
                         return User.create(params);
+                    }).then(result=>{
+                        if(result!== undefined) return {data: result};
+                        throw new MoleculerClientError('Unexpected Error', null, '', []);
                     })
-                    .catch(err => {
-                        if (err instanceof ValidationError) return Promise.reject(err);
-                        return Promise.reject(new MoleculerClientError('Unexpected Error!', 500, '', [{ message: err.message }]));
-                    });
             }
         },
 
@@ -110,7 +108,25 @@ module.exports = {
      * Events
      */
     events: {
-
+        'base.register'(payload) {
+            this.logger.info('base register user : ', payload);
+            // Update all message that have this locale to locale_id :0
+            if (payload.times >= this.settings.maxRetryTime) {
+                this.logger.error('base register fail ', payload);
+                //After 3 times email to developer
+                //TODO create mail service
+                this.broker.emit('email.handle-error', { service: 'base', method: 'register', payload });
+            } else {
+                try {
+                    //Do event handler here
+                    //TODO
+                    //eg : Create profile
+                    //this.broker.call();
+                } catch (error) {
+                    this.logger.error('event base register fail: ' + error.message);
+                }
+            }
+        }
     },
 
     /**
@@ -120,10 +136,12 @@ module.exports = {
         transformLogin(data) {
             if (data.user && data.token) {
                 return Promise.resolve({
-                    token_type: 'Bearer',
-                    access_token: data.token.accessToken,
-                    refresh_token: data.token.refreshToken,
-                    user: data.user
+                    data:{
+                        token_type: 'Bearer',
+                        access_token: data.token.accessToken,
+                        refresh_token: data.token.refreshToken,
+                        user: data.user
+                    }
                 });
             }
             return Promise.reject(new MoleculerClientError('Unexpected Error!', 500, '', []));
@@ -134,7 +152,7 @@ module.exports = {
      * Service created lifecycle event handler
      */
     created() {
-
+        global.Promise = this.Promise;
     },
 
     /**
