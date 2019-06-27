@@ -11,7 +11,7 @@ exports.up = (knex, Promise) => {
         table.timestamp('created_at').notNullable().defaultTo(knex.raw('now()'));
         table.timestamp('updated_at').notNullable().defaultTo(knex.raw('now()'));
         table.timestamp('deleted_at');
-    }).then(() => knex.raw(onUpdateTrigger('messages')));
+    }).then(() => knex.raw(onUpdateTrigger('users')));
 };
 
 exports.down = (knex, Promise) => {
