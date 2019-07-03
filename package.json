@@ -7,10 +7,10 @@
     "start": "moleculer-runner service.js",
     "ci": "jest --watch",
     "test": "jest --coverage",
-    "test-ci": "jest --coverage --forceExit",
+    "test-ci": "jest --coverage --forceExit --passWithNoTests",
     "test-inspect": "node --inspect-brk node_modules/.bin/jest --runInBand --detectOpenHandles",
-    "lint": "eslint services app test",
-    "lint-fix": "eslint services app test --fix",
+    "lint": "eslint .",
+    "lint-fix": "eslint . --fix",
     "docker-start": "docker-compose -f docker/docker-compose.yml up -d",
     "docker-stop": "docker-compose -f docker/docker-compose.yml down",
     "db": "psql -U super_node -h localhost -d lux_test"
