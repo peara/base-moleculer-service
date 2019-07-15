@@ -73,13 +73,13 @@ module.exports = knex => {
                 };
             });
     };
-    const validateToken = (token)=>{
+    const validateToken = (token) => {
         return TokenHandler.validateToken(token);
     };
-    const hashPassword = (password)=>{
+    const hashPassword = (password) => {
         return encryptPassword(password);
     };
-    const checkPassword = async (id, password)=>{
+    const checkPassword = async (id, password) => {
         const user = await knex.select(['password'])
             .from(tableName)
             .where({ id })

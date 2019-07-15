@@ -96,12 +96,12 @@ module.exports = {
                         // Emit an event to all service
                         this.broker.emit('base.register', { service: 'base', method: 'register', params });
                         return User.create(params);
-                    }).then(result=>{
-                        if(result!== undefined) return {data: result};
+                    }).then(result => {
+                        if (result !== undefined) return { data: result };
                         throw new MoleculerClientError('Unexpected Error', null, '', []);
-                    })
+                    });
             }
-        },
+        }
 
     },
     /**
@@ -113,15 +113,15 @@ module.exports = {
             // Update all message that have this locale to locale_id :0
             if (payload.times >= this.settings.maxRetryTime) {
                 this.logger.error('base register fail ', payload);
-                //After 3 times email to developer
-                //TODO create mail service
+                // After 3 times email to developer
+                // TODO create mail service
                 this.broker.emit('email.handle-error', { service: 'base', method: 'register', payload });
             } else {
                 try {
-                    //Do event handler here
-                    //TODO
-                    //eg : Create profile
-                    //this.broker.call();
+                    // Do event handler here
+                    // TODO
+                    // eg : Create profile
+                    // this.broker.call();
                 } catch (error) {
                     this.logger.error('event base register fail: ' + error.message);
                 }
@@ -136,7 +136,7 @@ module.exports = {
         transformLogin(data) {
             if (data.user && data.token) {
                 return Promise.resolve({
-                    data:{
+                    data: {
                         token_type: 'Bearer',
                         access_token: data.token.accessToken,
                         refresh_token: data.token.refreshToken,

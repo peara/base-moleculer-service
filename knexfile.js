@@ -17,6 +17,7 @@ const baseConfig = {
     seeds
 };
 
+// TODO refactor this
 module.exports = {
     development: {
         ...baseConfig,

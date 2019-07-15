@@ -21,7 +21,7 @@ module.exports = knex => {
         selectableProps
     });
 
-    const create = (data) =>{
+    const create = (data) => {
         return guts.create({
             user_id: data.user.id,
             jti: data.token.jti,
