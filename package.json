@@ -1,5 +1,5 @@
 {
-  "name": "auth-service",
+  "name": "base-service",
   "version": "1.0.0",
   "description": "My Moleculer microservice",
   "scripts": {
@@ -28,17 +28,15 @@
   },
   "dependencies": {
     "amqplib": "^0.5.3",
-    "bcrypt": "^3.0.6",
     "debug": "^4.1.1",
     "eslint-config-airbnb-base": "^13.1.0",
     "esm": "^3.2.25",
     "ioredis": "^3.2.2",
-    "jsonwebtoken": "^8.5.1",
     "knex": "^0.17.5",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.15",
     "moleculer": "^0.13.0",
     "moment": "^2.24.0",
-    "njwt": "^1.0.0",
+    "objection": "^1.6.9",
     "pg": "^7.11.0",
     "randomstring": "^1.1.5",
     "redlock": "^3.1.2"
