@@ -32,10 +32,10 @@ module.exports = {
 
     // Define transporter.
     // More info: https://moleculer.services/docs/0.13/networking.html
-    transporter: 'amqp://localhost:5672',
+    transporter: process.env.TRANSPORTER || 'amqp://localhost:5672',
 
     // Define a cacher. More info: https://moleculer.services/docs/0.13/caching.html
-    cacher: 'redis://localhost:6379',
+    cacher: process.env.CACHER || 'redis://localhost:6379',
 
     // Define a serializer.
     // Available values: "JSON", "Avro", "ProtoBuf", "MsgPack", "Notepack", "Thrift".

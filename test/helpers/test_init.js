@@ -5,7 +5,7 @@ var tables = [
 ];
 
 function truncate() {
-    return Promise.all(tables.map(table => knex.raw('truncate ' + table + ' cascade')));
+    return Promise.all(tables.map(table => knex.raw('truncate ' + table + ' RESTART IDENTITY cascade;')));
 }
 
 module.exports = {

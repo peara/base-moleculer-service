@@ -17,16 +17,15 @@ const baseConfig = {
     seeds
 };
 
-// TODO refactor this
 module.exports = {
     development: {
         ...baseConfig,
         connection: {
-            host: 'localhost',
-            user: 'super_node',
-            password: 'node@node',
-            database: 'base_dev',
-            port: '5432'
+            host: process.env.AUTH_DB_HOST || 'localhost',
+            user: process.env.AUTH_DB_USER || 'super_node',
+            password: process.env.AUTH_DB_PASSWORD || 'node@node',
+            database: process.env.AUTH_DB_NAME || 'auth_dev',
+            port: process.env.AUTH_DB_PORT || '5432'
         }
     },
     test: {
@@ -35,7 +34,7 @@ module.exports = {
             host: 'localhost',
             user: 'super_node',
             password: 'node@node',
-            database: 'base_test',
+            database: 'auth_test',
             port: '5432'
         }
     },
@@ -45,7 +44,7 @@ module.exports = {
             host: 'postgres',
             user: 'super_node',
             password: 'node@node',
-            database: 'lux_test',
+            database: 'auth_test',
             port: '5432'
         }
     },
