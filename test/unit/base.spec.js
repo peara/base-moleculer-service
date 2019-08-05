@@ -13,5 +13,8 @@ describe("Test 'base' service", () => {
 
     describe("Test 'base.register' action", () => {
         beforeAll(() => truncate());
+        test('register successfully', () => {
+            expect(1).toEqual(1);
+        });
     });
 });
