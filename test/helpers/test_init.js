@@ -1,13 +1,20 @@
 'use strict';
 
-const knex = require('../../config/database.js');
 var tables = [
+    'calendars',
+    'bookings',
+    'guests',
+    'partners'
 ];
 
-function truncate() {
-    return Promise.all(tables.map(table => knex.raw('truncate ' + table + ' RESTART IDENTITY cascade;')));
-}
+module.exports = (knex) => {
+    return {
+        truncate: (t = tables) => {
+            return Promise.all(t.map(table => knex.raw('truncate ' + table + ' RESTART IDENTITY cascade;')));
+        },
 
-module.exports = {
-    truncate
+        disconnectDB: async () => {
+            await knex.connection().client.pool.destroy();
+        }
+    };
 };

@@ -2,7 +2,8 @@
 
 const { ServiceBroker } = require('moleculer');
 const BaseService = require('../../services/base.service');
-const { truncate } = require('../helpers/test_init');
+const knex = require('../../config/database');
+const { truncate } = require('../helpers/test_init')(knex);
 
 describe("Test 'base' service", () => {
     let broker = new ServiceBroker();

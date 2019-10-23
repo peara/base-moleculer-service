@@ -32,12 +32,22 @@ class CustomQueryBuilder extends QueryBuilder {
     }
 
     page(page, pageSize) {
-        const maxPageSize = this.modelClass().maxPageSize;
-
-        if (maxPageSize !== undefined && pageSize > maxPageSize) {
-            return super.page(page - 1, maxPageSize);
+        if (page === undefined || pageSize === undefined) {
+            return Promise.reject(new Error('page, pageSize are required!'));
         }
-        return super.page(page - 1, pageSize);
+
+        let maxPageSize = this.modelClass().maxPageSize || 100;
+        let perPage = pageSize > maxPageSize ? maxPageSize : pageSize;
+
+        return super.page(page - 1, perPage)
+            .then(res => {
+                return {
+                    data: res.results,
+                    page,
+                    total: res.total,
+                    per_page: perPage
+                };
+            });
     }
 }
 

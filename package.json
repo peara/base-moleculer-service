@@ -4,15 +4,13 @@
   "description": "My Moleculer microservice",
   "scripts": {
     "dev": "moleculer-runner --repl --hot services",
-    "start": "moleculer-runner service.js",
+    "start": "moleculer-runner services",
     "ci": "jest --watch",
-    "test": "jest --coverage --runInBand",
-    "test-ci": "jest --coverage --forceExit --passWithNoTests --runInBand",
-    "test-inspect": "node --inspect-brk node_modules/.bin/jest --runInBand --detectOpenHandles",
+    "test": "NODE_ENV=test jest --coverage --runInBand",
+    "test-ci": "NODE_ENV=ci jest --coverage --forceExit --passWithNoTests --runInBand",
+    "test-inspect": "NODE_ENV=test node --inspect-brk node_modules/.bin/jest --runInBand --detectOpenHandles",
     "lint": "eslint .",
     "lint-fix": "eslint . --fix",
-    "docker-start": "docker-compose -f docker/docker-compose.yml up -d",
-    "docker-stop": "docker-compose -f docker/docker-compose.yml down",
     "db": "psql -U super_node -h localhost -d lux_test"
   },
   "keywords": [
@@ -22,14 +20,14 @@
   "author": "",
   "devDependencies": {
     "eslint": "^5.0.1",
-    "jest": "^23.3.0",
-    "jest-cli": "^23.3.0",
-    "moleculer-repl": "^0.5.0"
+    "jest": "^25.0.0",
+    "jest-cli": "^25.0.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "moleculer-repl": "^0.6.1"
   },
   "dependencies": {
     "amqplib": "^0.5.3",
     "debug": "^4.1.1",
-    "eslint-config-airbnb-base": "^13.1.0",
     "esm": "^3.2.25",
     "ioredis": "^3.2.2",
     "knex": "^0.17.5",

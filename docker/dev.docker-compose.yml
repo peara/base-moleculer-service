@@ -1,16 +1,5 @@
 version: "3.7"
 services:
-  base-db:
-    image: "postgres:11.3"
-    environment:
-      POSTGRES_DB: base_dev
-      POSTGRES_USER: base_dev
-      POSTGRES_PASSWORD: node@node
-    container_name: "base-node-postgres"
-    ports:
-      - 5432:5432
-    networks:
-      dev_network:
   base-service:
     env_file: dev.docker-compose.env
     container_name: "base-service"
