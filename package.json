@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "amqplib": "^0.5.3",
+    "bunyan": "^1.8.12",
     "debug": "^4.1.1",
     "esm": "^3.2.25",
     "ioredis": "^3.2.2",

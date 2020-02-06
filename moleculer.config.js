@@ -15,6 +15,11 @@
  * 	via environment variables, use the `MOL_` prefix and double underscore `__` for nested properties in .env file.
  * 	For example, to set the cacher prefix to `MYCACHE`, you should declare an env var as `MOL_CACHER__OPTIONS__PREFIX=MYCACHE`.
  */
+
+require('module-alias/register')
+const bunyan = require("bunyan");
+const logger = bunyan.createLogger({ name: "moleculer", level: process.env.LOG_LEVEL || "info" });
+
 module.exports = {
     // Namespace of nodes to segment your nodes on the same network.
     namespace: '',
@@ -22,7 +27,7 @@ module.exports = {
     nodeID: null,
 
     // Enable/disable logging or use custom logger. More info: https://moleculer.services/docs/0.13/logging.html
-    logger: true,
+    logger: bindings => logger.child(bindings),
     // Log level for built-in console logger. Available values: trace, debug, info, warn, error, fatal
     logLevel: 'info',
     // Log formatter for built-in console logger. Available values: default, simple, short. It can be also a `Function`.

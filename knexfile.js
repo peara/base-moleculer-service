@@ -17,63 +17,74 @@ const baseConfig = {
     seeds
 };
 
+const connection = {
+    host: 'localhost',
+    user: 'super_node',
+    password: 'node@node',
+    database: 'property_dev',
+    port: '5432'
+};
+
 module.exports = {
     development: {
         ...baseConfig,
-        connection: {
-            host: process.env.AUTH_DB_HOST || 'localhost',
-            user: process.env.AUTH_DB_USER || 'super_node',
-            password: process.env.AUTH_DB_PASSWORD || 'node@node',
-            database: process.env.AUTH_DB_NAME || 'auth_dev',
-            port: process.env.AUTH_DB_PORT || '5432'
+        connection,
+        pool: {
+            min: 1,
+            max: 3
         }
     },
     test: {
         ...baseConfig,
         connection: {
-            host: 'localhost',
-            user: 'super_node',
-            password: 'node@node',
-            database: 'auth_test',
-            port: '5432'
+            ...connection,
+            database: 'property_test'
+        },
+        pool: {
+            min: 1,
+            max: 3
         }
     },
     ci: {
         ...baseConfig,
         connection: {
-            host: 'postgres',
-            user: 'super_node',
-            password: 'node@node',
-            database: 'auth_test',
+            host: 'sample',
+            user: 'sample_ci',
+            password: 'sample_ci',
+            database: 'sample_test',
             port: '5432'
+        },
+        pool: {
+            min: 1,
+            max: 3
         }
     },
     staging: {
         ...baseConfig,
         connection: {
-            host: '127.0.0.1',
-            user: 'postgres',
-            password: 'nodev1db',
-            database: 'base_staging',
-            port: '5432'
+            host: process.env.SAMPLE_DB_HOST,
+            user: process.env.SAMPLE_DB_USER,
+            password: process.env.SAMPLE_DB_PASSWORD,
+            database: process.env.SAMPLE_DB_NAME,
+            port: process.env.SAMPLE_DB_PORT
         },
         pool: {
-            min: 2,
-            max: 10
+            min: 1,
+            max: 3
         }
     },
     production: {
         ...baseConfig,
         connection: {
-            host: '127.0.0.1',
-            user: 'postgres',
-            password: 'nodev1db',
-            database: 'base_prod',
-            port: '5432'
+            host: process.env.SAMPLE_DB_HOST,
+            user: process.env.SAMPLE_DB_USER,
+            password: process.env.SAMPLE_DB_PASSWORD,
+            database: process.env.SAMPLE_DB_NAME,
+            port: process.env.SAMPLE_DB_PORT
         },
         pool: {
-            min: 2,
-            max: 10
+            min: 1,
+            max: 3
         }
     },
     onUpdateTrigger: table => `

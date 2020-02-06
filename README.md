@@ -36,3 +36,9 @@ $ docker build -t base-service .
 ```bash
 $ docker run -d base-service
 ```
+
+## Logger
+
+[bunyan](https://github.com/trentm/node-bunyan) is used as custom logger because of it's support for JSON format.
+To view in simple oneline format, install bunyan in global namespace then stream logs through it.
+For example: `npm run dev | bunyan`
