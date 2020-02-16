@@ -2,6 +2,7 @@
   "name": "base-service",
   "version": "1.0.0",
   "description": "My Moleculer microservice",
+  "repository": "https://github.com/peara/base-moleculer-service",
   "scripts": {
     "dev": "moleculer-runner --repl --hot services",
     "start": "moleculer-runner services",
