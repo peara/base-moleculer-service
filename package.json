@@ -33,6 +33,7 @@
     "ioredis": "^3.2.2",
     "knex": "^0.19.5",
     "lodash": "^4.17.15",
+    "module-alias": "^2.2.2",
     "moleculer": "^0.13.0",
     "moment": "^2.24.0",
     "objection": "^1.6.9",
@@ -53,6 +54,17 @@
     ],
     "roots": [
       "./test"
-    ]
+    ],
+    "moduleNameMapper": {
+      "@root/(.*)": "<rootDir>/$1",
+      "@models/(.*)": "<rootDir>/app/models/$1",
+      "@services/(.*)": "<rootDir>/services/$1",
+      "@test/(.*)": "<rootDir>/test/$1"
+    }
+  },
+  "_moduleAliases": {
+    "@root": ".",
+    "@models": "./app/models",
+    "@services": "./app/services"
   }
 }
