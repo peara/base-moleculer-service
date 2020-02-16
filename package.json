@@ -1,8 +1,9 @@
 {
-  "name": "base-service",
+  "name": "base-moleculer-service",
   "version": "1.0.0",
   "description": "My Moleculer microservice",
   "repository": "https://github.com/peara/base-moleculer-service",
+  "license": "MIT",
   "scripts": {
     "dev": "moleculer-runner --repl --hot services",
     "start": "moleculer-runner services",
@@ -20,10 +21,12 @@
   ],
   "author": "",
   "devDependencies": {
+    "canvas": "^2.5.0",
     "eslint": "^5.0.1",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.14.0",
     "jest": "^25.0.0",
     "jest-cli": "^25.0.0",
-    "eslint-config-airbnb-base": "^13.1.0",
     "moleculer-repl": "^0.6.1"
   },
   "dependencies": {
